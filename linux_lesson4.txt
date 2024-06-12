@@ -1,0 +1,60 @@
+1. Потоки ввода/вывода. Создать файл, используя команду echo. 
+Используя команду cat, прочитать содержимое каталога etc, ошибки перенаправить в отдельный файл.
+
+echo Hey > test_file
+cat test_file
+cat /etc/
+cat /etc/ 2 > err_file 
+cat err_file
+
+
+2. Конвейер (pipeline). Использовать команду cut на вывод длинного списка каталога, 
+чтобы отобразить только права доступа к файлам. Затем отправить в конвейере этот вывод на sort и uniq, 
+чтобы отфильтровать все повторяющиеся строки.
+
+ ls -la | cat -d " " -f 1 | greap -v total | sort | uniq
+
+
+3. Управление процессами. Изменить конфигурационный файл службы SSH: /etc/ssh/sshd_config, 
+отключив аутентификацию по паролю PasswordAuthentication no. 
+Выполните рестарт службы systemctl restart sshd (service sshd restart), 
+верните аутентификацию по паролю, выполните reload службы systemctl reload sshd (services sshd reload). 
+В чём различие между действиями restart и reload? 
+Создайте файл при помощи команды cat > file_name, напишите текст и завершите комбинацией ctrl+d. 
+Какой сигнал передадим процессу?
+
+Аутентификация по паролю:
+ssh keygen
+cd .ssh/
+ls
+cp id_rsa.pub authorized_keys
+pwd 
+ctrl D -> logout
+scp geek@192.168.1.163:~/ .ssh/id_rsa db04072021.rsa
+shh -i .\db04072021.rsa geek@192.168.1.163
+
+Отключение аутентификации по паролю
+sudo nano /etc/ssh/sshd_config
+в самом конце файла прописываем PasswordAuthentication no
+sudo systemclt restart sshd
+ctrl D -> logout
+shh -i .\db04072021.rsa geek@192.168.1.163
+sudo nano /etc/ssh/sshd_config
+возвращаем пароль PasswordAuthentication yes
+sudo systemclt reload sshd
+
+restart - полностью перезапуск службы
+reload - служба не выключается, подтягивает новый конфигурационный файл
+
+cat > file_name
+cat file_name
+
+
+4. Сигналы процессам. Запустите mc. Используя ps, найдите PID процесса, завершите процесс, передав ему сигнал 9.
+
+mc
+ctlr z (свернули процесс)
+ps -elf | grep mc
+kill -9 3081
+
+
