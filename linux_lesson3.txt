@@ -1,0 +1,59 @@
+1. Управление пользователями:
+a) создать пользователя, используя утилиту useradd;
+1 вариант:
+sudo useradd -s /bin/bash -d /home/user -m user_name
+sudo passwd user_name
+
+2 вариант:
+sudo adduser alina
+
+b) удалить пользователя, используя утилиту userdel;
+sudo userdel user_name
+
+c) создать пользователя в ручном режиме.
+Добавить в файл /etc/passwd:
+sudo nano /etc/passwd:
+alina:x:1001:1001:alina:/home/geek:/bin/bash 
+(!не рекомендуется создавать в ручном режиме)
+
+
+2. Управление группами:
+a) создать группу с использованием утилит и в ручном режиме;
+sudo addgroup group_name
+
+sudo nano /etc/group - создание в ручном режиме (!не рекомендуется)
+
+b) попрактиковаться в смене групп у пользователей;
+sudo usermod -G adm,sudo user_name 
+
+c) добавить пользователя в группу, не меняя основной;
+sudo usermod -aG sudo user_name
+
+d) удалить пользователя из группы.
+1 вариант:
+Удалить вручную из файла /etc/group:
+sudo nano /etc/group
+
+2 вариант:
+sudo usermod -G sudo user_name - оставит пользователя только в группе sudo
+
+
+3. Создать пользователя с правами суперпользователя. 
+Сделать так, чтобы sudo не требовал пароль для выполнения команд.
+
+sudo adduser alina 
+sudo usermod -G adm,sudo alina 
+
+Вносим правки в файле /etc/sudoers 
+sudo visudo
+alina     ALL=(ALL:ALL) NOPASSWD:ALL
+
+
+4. * Используя дополнительные материалы, 
+выдать одному из созданных пользователей право на выполнение ряда команд, 
+требующих прав суперпользователя (команды выбираем на своё усмотрение).
+
+Вносим правки в файле /etc/sudoers 
+sudo visudo
+geek     ALL=(ALL:ALL) NOPASSWD: /usr/bin/apt* 
+
